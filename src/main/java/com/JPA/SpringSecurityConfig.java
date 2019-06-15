@@ -11,9 +11,13 @@ import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.JPA.auth.handler.LoginSuccessHandler;
+
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	@Autowired
+	private LoginSuccessHandler successHandler;
 	
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
@@ -32,6 +36,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		.anyRequest().authenticated()
 		.and()
 		    .formLogin()
+		    	.successHandler(successHandler)
 		        .loginPage("/login")
 		    .permitAll()
 		.and()
